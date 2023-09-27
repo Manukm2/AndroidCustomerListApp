@@ -1,8 +1,13 @@
 package com.example.customerlistapp.repository
 
+import android.util.Log
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.customerlistapp.customers.model.Customer
 import com.example.customerlistapp.customers.service.CustomerService
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -21,6 +26,31 @@ class NetworkRepository {
         .build()
         customerService = retrofit.create(CustomerService::class.java) /*We've defined a network repository and it has been linked to retrofit service to help it
         fetch the data from the particular base URL and the relative path */
+    }
+
+    fun fetchCustomerList(){
+        /*This method will help us to fetch the Customer List data and this will be invoked by the viewmodel at the start to help the
+        repository start fetching this data   */
+        customerService.customList().enqueue(object : Callback<List<Customer>>{
+            override fun onResponse(call: Call<List<Customer>>, response: Response<List<Customer>>) {
+                if(response.isSuccessful){
+                        response.body()?.let {
+                            customerList.value = response.body()
+                        }
+                }else{
+                    Log.d("NetworkRepo", "Response unsuccessful")
+                }
+            }
+
+            override fun onFailure(call: Call<List<Customer>>, t: Throwable) {
+                t.printStackTrace()
+            }
+        })
+    }
+
+    fun customerList() : LiveData<List<Customer>> {
+        /*Final thing we need is to expose this mutable live data*/
+        return customerList
     }
 
 }
