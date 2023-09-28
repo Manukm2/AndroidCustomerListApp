@@ -1,5 +1,6 @@
 package com.example.customerlistapp.customers.ui.viewholders
 
+import android.util.Log
 import androidx.recyclerview.widget.RecyclerView
 import com.example.customerlistapp.R
 import com.example.customerlistapp.customers.model.Customer
@@ -9,8 +10,9 @@ class CustomerListViewHolder(private val binding : ItemCustomerListBinding) : Re
 
     fun bind(customer: Customer){
         /*recyclerview will call to help the view binder to help this viewholder set the values on the item layout  */
+        Log.d("","------------------CustomerListViewHolder.bind()----------------------------")
         binding.customerNameTextView.text = binding.root.context.getString(R.string.customer_name,customer.firstName, customer.lastname)
-        binding.customerNameTextView.text = customer.userName
+        binding.customerUserNameTextView.text = binding.root.context.getString(R.string.user_name,customer.userName)
     }
 
 }

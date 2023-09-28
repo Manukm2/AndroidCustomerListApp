@@ -2,12 +2,13 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     tools:context=".customers.ui.fragment.CustomerListFragment">
 
  <androidx.recyclerview.widget.RecyclerView
      android:id="@+id/customer_list_recyclerview"
      android:layout_width="match_parent"
-     android:layout_height="match_parent"/>
+     android:layout_height="wrap_content"
+     android:overScrollMode="never"/>
 
 </FrameLayout>

@@ -24,16 +24,19 @@ class NetworkRepository {
         .baseUrl(BASE_URL)     ///We are adding base URL
         .addConverterFactory(GsonConverterFactory.create())   //We are adding the convertorfactory which comes from Gson that we are using to parse the Json data.
         .build()
-        customerService = retrofit.create(CustomerService::class.java) /*We've defined a network repository and it has been linked to retrofit service to help it
+        customerService = retrofit.create(CustomerService::class.java) /* We've defined a network repository and it has been linked to retrofit service to help it
         fetch the data from the particular base URL and the relative path */
     }
 
     fun fetchCustomerList(){
         /*This method will help us to fetch the Customer List data and this will be invoked by the viewmodel at the start to help the
         repository start fetching this data   */
+        Log.d("","------------------NetworkRepository.fetchCustomerList()----------------------------")
         customerService.customList().enqueue(object : Callback<List<Customer>>{
             override fun onResponse(call: Call<List<Customer>>, response: Response<List<Customer>>) {
+                Log.d("","------------------NetworkRepository.fetchCustomerList().onResponse()----------------------------")
                 if(response.isSuccessful){
+                    Log.d("","------------------NetworkRepository.fetchCustomerList().onResponse().succuessful----------------------------")
                         response.body()?.let {
                             customerList.value = response.body()
                         }
@@ -43,14 +46,15 @@ class NetworkRepository {
             }
 
             override fun onFailure(call: Call<List<Customer>>, t: Throwable) {
+
                 t.printStackTrace()
             }
         })
     }
 
     fun customerList() : LiveData<List<Customer>> {
-        /*Final thing we need is to expose this mutable live data*/
+        /* Final thing we need is to expose this mutable live data */
+        Log.d("","------------------NetworkRepository.customerList()----------------------------")
         return customerList
     }
-
 }
